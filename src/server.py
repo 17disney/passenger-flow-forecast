@@ -1,4 +1,3 @@
-import pika
 import json
 from tickets import predictTickets
 from flask import Flask
