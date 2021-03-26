@@ -1,3 +1,5 @@
 flask
 pandas
 tensorflow
+gevent
+gunicorn
