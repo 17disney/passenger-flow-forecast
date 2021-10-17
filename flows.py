@@ -4,9 +4,9 @@ from tensorflow import keras
 from tensorflow.keras import layers
 
 model = tf.keras.models.load_model('model/flows.h5')
+usbModel = tf.keras.models.load_model('model/usb_flows.h5')
 
 def predictFlows(data):
-  # 数据清洗
   df = pd.json_normalize(data)
   dataset = df
   dataset['memberDay'] = dataset['memberDay']*10000
@@ -14,5 +14,12 @@ def predictFlows(data):
   # dataset['day'] = dataset['day']*1.0
 
   predictions = model.predict(dataset).flatten()
+
+  return predictions
+
+def predictUsbFlows(data):
+  df = pd.json_normalize(data)
+  dataset = df
+  predictions = usbModel.predict(dataset).flatten()
 
   return predictions

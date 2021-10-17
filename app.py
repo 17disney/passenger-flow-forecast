@@ -1,6 +1,7 @@
 import json
 from tickets import predictTickets
-from flows import predictFlows
+# from tickets import 
+from flows import predictFlows, predictUsbFlows
 from flask import Flask
 from flask import request
 
@@ -21,5 +22,14 @@ def predictionsFlows():
   data = request.json
 
   predictions = predictFlows(data)
+  predictions = predictions.tolist()
+  return json.dumps(predictions, ensure_ascii=False)
+
+@app.route('/predictions/usb/flows', methods=['POST'])
+def predictionsUsbFlows():
+  print(request.json)
+  data = request.json
+
+  predictions = predictUsbFlows(data)
   predictions = predictions.tolist()
   return json.dumps(predictions, ensure_ascii=False)
