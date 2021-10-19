@@ -4,15 +4,13 @@ import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import layers
 
-def fetchData():
-  res = requests.post("http://localhost:7001/api/etl/usb")
-  return res.json()
 
-df = fetchData()
-df = pd.json_normalize(df)
-
-def generAttModel(id):
-  dataset = df[[id, 'attsMark', 'isMon', 'isFri', 'isSaturday', 'isSunday', 'isHoliday']]
+def generAttModel(id, df):
+  df = pd.json_normalize(df)
+  sourceId = id + '.avg'
+  print(sourceId)
+  df = df[df[sourceId]>0]
+  dataset = df[[sourceId, 'attsMark', 'isMon', 'isFri', 'isSaturday', 'isSunday', 'isHoliday']]
 
   # 拆分训练数据集和测试数据集
   train_dataset = dataset.sample(frac=0.8,random_state=0)
@@ -23,7 +21,7 @@ def generAttModel(id):
   train_stats = train_stats.transpose()
 
   # 从标签中分离特征
-  train_labels = train_dataset.pop(id)
+  train_labels = train_dataset.pop(sourceId)
   normed_train_data = train_dataset
 
   def build_model():
@@ -75,5 +73,10 @@ list = [
   "5f91526a68ff66780876eaaf",
 ]
 
+def fetchData():
+  res = requests.post("http://localhost:7001/api/etl/usb")
+  return res.json()
+
+df = fetchData()
 for id in list:
-  generAttModel(id)
+  generAttModel(id, df)

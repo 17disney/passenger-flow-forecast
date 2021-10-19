@@ -36,10 +36,12 @@ def predictionsUsbFlows():
   return json.dumps(predictions, ensure_ascii=False)
 
 @app.route('/predictions/usb/atts', methods=['POST'])
-def predictionsUsbFlows():
+def predictionsUsbAtts():
   print(request.json)
-  data = request.json.id
-  data = request.json.data
+  id = request.json['id']
+  data = request.json['data']
+
+  print(id)
 
   predictions = predictAtts(id, data)
   predictions = predictions.tolist()
