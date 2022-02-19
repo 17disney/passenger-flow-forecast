@@ -1,7 +1,7 @@
 import json
 from tickets import predictTickets
 # from tickets import 
-from flows import predictFlows, predictUsbFlows
+from flows import predictFlows, predictUsbFlows, predictShdrFlows
 from atts import predictAtts
 from flask import Flask
 from flask import request
@@ -32,6 +32,15 @@ def predictionsUsbFlows():
   data = request.json
 
   predictions = predictUsbFlows(data)
+  predictions = predictions.tolist()
+  return json.dumps(predictions, ensure_ascii=False)
+
+@app.route('/predictions/shdr/flows', methods=['POST'])
+def predictionsShdrFlows():
+  print(request.json)
+  data = request.json
+
+  predictions = predictShdrFlows(data)
   predictions = predictions.tolist()
   return json.dumps(predictions, ensure_ascii=False)
 
