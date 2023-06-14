@@ -1,0 +1,1 @@
+scp -r web-model/* root@1.15.2.36:/home/wwwroot/cdn.17shenqi.com/model/
