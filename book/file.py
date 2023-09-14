@@ -15,11 +15,11 @@ def readFile(name):
   finally:
     file_object.close()
 
-  for item in df:
-    pptTotal = 0
-    for wea in item['weathers']['pptHours']:
-      pptTotal += wea[1]
-    item['pptTotal'] = pptTotal
+  # for item in df:
+  #   pptTotal = 0
+  #   for wea in item['weathers']['pptHours']:
+  #     pptTotal += wea[1]
+  #   item['pptTotal'] = pptTotal
 
   df = pd.json_normalize(df)
   df['dateIndex'] = pd.to_datetime(df['date'])
